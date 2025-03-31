@@ -1,0 +1,3 @@
+{
+  "postCreateCommand": "./codespaces-setup.sh"
+}

@@ -16,6 +16,22 @@ class MapFetcher {
         stripPrefix: string | undefined = undefined
     ): Promise<string> {
         if (mapUrl) {
+            // convert a public URL to an internal one, if configured
+            // useful for GH Codespaces where the backend cannot access the public URL
+            if (process.env.PUBLIC_MAP_PREFIX_REPLACE) {
+                const publicMapPrefix = process.env.PUBLIC_MAP_PREFIX_REPLACE;
+                if (mapUrl.startsWith(publicMapPrefix)) {
+                    if (!internalMapStorageUrl) {
+                        throw new Error(
+                            `Cannot replace public map prefix because internalMapStorageUrl is not defined.`
+                        );
+                    }
+                    // Replace the public prefix with the internal one
+                    const internalMapUrl = mapUrl.replace(publicMapPrefix, internalMapStorageUrl);
+                    console.log(`Converted public map URL ${mapUrl} to internal map URL ${internalMapUrl}`);
+                    return internalMapUrl;
+                }
+            }
             return mapUrl;
         }
         if (!wamUrl) {
@@ -87,7 +103,8 @@ class MapFetcher {
             internalUrl === undefined &&
             (await this.isLocalUrl(url)) &&
             !storeVariableForLocalMaps &&
-            !canLoadLocalUrl
+            !canLoadLocalUrl &&
+            !process.env.PUBLIC_MAP_PREFIX_REPLACE
         ) {
             throw new LocalUrlError('URL for map "' + url + '" targets a local map');
         }

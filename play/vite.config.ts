@@ -5,8 +5,8 @@ import legacy from "@vitejs/plugin-legacy";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import Icons from "unplugin-icons/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-import inject from "@rollup/plugin-inject";
-import { UserConfig } from "vitest/config";
+// import inject from "@rollup/plugin-inject";
+// import { UserConfig } from "vitest/config";
 import NodeGlobalsPolyfillPlugin from "@esbuild-plugins/node-globals-polyfill";
 
 // https://vitejs.dev/config/
@@ -15,13 +15,17 @@ export default defineConfig(({ mode }) => {
     // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
     const env = loadEnv(mode, process.cwd(), "");
     const config = {
+        base: env.FRONT_BASE || "/",
         server: {
             host: "0.0.0.0",
             port: 8080,
-            hmr: {
-                // workaround for development in docker
-                clientPort: 80,
-            },
+            hmr:
+                env.FRONT_HMR === "0"
+                    ? false
+                    : {
+                          // workaround for development in docker
+                          clientPort: 80,
+                      },
             watch: {
                 ignored: ["./src/pusher"],
             },
@@ -30,7 +34,7 @@ export default defineConfig(({ mode }) => {
             sourcemap: true,
             outDir: "./dist/public",
             rollupOptions: {
-                plugins: [NodeGlobalsPolyfillPlugin({buffer: true}) ],
+                plugins: [NodeGlobalsPolyfillPlugin({ buffer: true })],
                 //plugins: [inject({ Buffer: ["buffer/", "Buffer"] })],
             },
         },
@@ -102,5 +106,5 @@ export default defineConfig(({ mode }) => {
     } else {
         console.info("Sentry plugin disabled");
     }
-    return config ;
+    return config;
 });

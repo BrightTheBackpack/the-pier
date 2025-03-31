@@ -11,7 +11,7 @@ node_modules
 _
 *.code-workspace
 /install.lock
-.vscode/extensions.json
+**/dist/*
 
 # Helm
 # Chart dependencies
@@ -23,9 +23,3 @@ synapse/homeserver.db
 synapse/homeserver.db-*
 synapse/homeserver.yaml
 synapse/media_store/*
-
-.vscode/settings.json
-
-compose.yml
-docker-compose.yaml
-docker-compose.yml

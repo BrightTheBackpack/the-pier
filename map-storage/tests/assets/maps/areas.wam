@@ -1,10 +1,10 @@
 {"version":"1.0.0","mapUrl":"./areas.tmj","areas":[],"entities":{}, "entityCollections": [
     {
-        "url": "http://play.workadventure.localhost/collections/FurnitureCollection.json",
+        "url": "https://sturdy-potato-69vxjv64qjrp24jrq-80.app.github.dev/collections/FurnitureCollection.json",
         "type": "file"
     },
     {
-        "url": "http://play.workadventure.localhost/collections/OfficeCollection.json",
+        "url": "https://sturdy-potato-69vxjv64qjrp24jrq-80.app.github.dev/collections/OfficeCollection.json",
         "type": "file"
     },
     {

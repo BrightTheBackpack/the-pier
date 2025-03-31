@@ -821,6 +821,7 @@ export class GameRoom implements BrothersFinder {
                     return variablesManager.init();
                 })
                 .catch(async (e) => {
+                    console.error("!!! error:", e);
                     if (e instanceof LocalUrlError) {
                         // If we are trying to load a local URL, we are probably in test mode.
                         // In this case, let's bypass the server-side checks completely.
